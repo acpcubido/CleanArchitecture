@@ -16,6 +16,8 @@ See `Code-Style.md` for:
 - Code organization
 - Best practices for readability
 
+Do not enforce any hot topic guideline!
+
 ### 3. Git Guidelines
 See `Git-Guidelines.md` for:
 - Commit message conventions
