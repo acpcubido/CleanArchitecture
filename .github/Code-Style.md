@@ -130,14 +130,7 @@ Beide Unterpunkte werden nicht durchgesetzt und liegen, bis auf weiteres, auf Ei
 
 ## 🔥 Hot-Topics
 
-### private fields beginnen mit einem `_`
-
-✅ `private int _logger;`\
-⛔ `private int logger;`
-
-**Warum?** Namenskollisionen bei Parametern wird vermieden\
-**Warum?** Auf einen Blick ersichtlich, dass es sich um eine field-variable handelt\
-**Warum?** Flüchtigkeitsfehler (current-scope variable/parameter statt field oder umgekehrt) werden vermieden
+// removed, because CoPilot started to enforce them
 
 ## Enforced Rules
 
