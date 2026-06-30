@@ -24,4 +24,9 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Cubido.Template.Application.FunctionalTests" />
+    <InternalsVisibleTo Include="Cubido.Template.Application.UnitTests" />
+  </ItemGroup>
+
 </Project>

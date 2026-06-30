@@ -1,4 +1,4 @@
-﻿using Cubido.Template.Application.Queries.GetTodoItemsWithPagination;
+﻿using Cubido.Template.Application.TodoItems.Queries.GetTodoItemsWithPagination;
 using Cubido.Template.Domain.Entities;
 using Shouldly;
 
