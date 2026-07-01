@@ -1,6 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <!-- one-time workaround for Visual Studio stripping solution folders see https://stackoverflow.com/questions/79895902/net-10-solution-template-not-applying-solution-folders-on-slnx-solutions -->
+  <Target Name="ReplaceSlnx" BeforeTargets="CollectPackageReferences">
+    <Move SourceFiles="$(SolutionDir)$(SolutionFileName).xml" DestinationFiles="$(SolutionDir)$(SolutionFileName)" OverwriteReadOnlyFiles="true" />
 
-    <PropertyGroup>
+    <!-- run just once -->
+    <Move SourceFiles="$(ProjectDir)Application.FunctionalTests.csproj.xml" DestinationFiles="$(ProjectDir)Application.FunctionalTests.csproj" OverwriteReadOnlyFiles="true" />
+  </Target>
+
+  <PropertyGroup>
         <RootNamespace>Cubido.Template.Application.FunctionalTests</RootNamespace>
         <AssemblyName>Cubido.Template.Application.FunctionalTests</AssemblyName>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -29,5 +36,5 @@
     <ItemGroup>
         <ProjectReference Include="..\..\src\Web\Web.csproj" />
     </ItemGroup>
-
+  
 </Project>

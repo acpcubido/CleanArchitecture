@@ -17,7 +17,7 @@ public class TodoItemBriefDto
 [Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
 internal static partial class TodoItemBriefDtoMapper
 {
-    private static partial TodoItemBriefDto Map(this TodoItem item);
+    internal static partial TodoItemBriefDto Map(this TodoItem item);
 
     public static partial IQueryable<TodoItemBriefDto> ProjectTo(this IQueryable<TodoItem> item);
 }

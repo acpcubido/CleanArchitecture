@@ -28,6 +28,10 @@
             "displayName": "Azure friendly name",
             "description": "An azure friendly name for the projects (all lowercase, no numbers, no spaces)",
             "replaces": "cubido-template"
+        },
+        "HostIdentifier": {
+            "type": "bind",
+            "binding": "host:HostIdentifier"
         }
     },
     "sources": [
@@ -37,7 +41,16 @@
                 {
                     "condition": "(!IncludeFrontend)",
                     "exclude": [ "src/Frontend/**/*" ]
-                }
+                },
+                // workaround for Visual Studio stripping solution folders not needed in dotnet new CLI
+                {
+                    "condition": "(HostIdentifier == \"dotnetcli\" || HostIdentifier == \"dotnetcli-preview\")",
+                    "exclude": [ "tests/Application.FunctionalTests/Application.FunctionalTests.csproj" ],
+                    "rename": {
+                        "Cubido.Template.slnx.xml": "Cubido.Template.slnx",
+                        "tests/Application.FunctionalTests/Application.FunctionalTests.csproj.xml": "tests/Application.FunctionalTests/Application.FunctionalTests.csproj"
+                    }
+                    }
             ]
         }
     ]

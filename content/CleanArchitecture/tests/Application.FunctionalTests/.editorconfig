@@ -1,0 +1,4 @@
+[*.cs]
+# using static Testing;
+csharp_using_directive_placement = inside_namespace
+dotnet_diagnostic.IDE0065.severity = none

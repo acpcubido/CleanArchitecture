@@ -12,12 +12,12 @@
   <Folder Name="/src/">
     <Project Path="src/Application/Application.csproj" />
     <Project Path="src/Domain/Domain.csproj" />
-<!--#if(IncludeFrontend)-->
+<!--#if (IncludeFrontend) -->
     <Project Path="src/Frontend/Frontend.esproj">
       <Build />
       <Deploy />
     </Project>
-<!--#endif-->
+<!-- #endif -->
     <Project Path="src/Infrastructure/Infrastructure.csproj" />
     <Project Path="src/Web/Web.csproj" DefaultStartup="true" />
   </Folder>
