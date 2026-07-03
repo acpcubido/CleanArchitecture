@@ -1,4 +1,7 @@
 ﻿using Cubido.Template.Infrastructure.Data;
+#if (IncludeMcpServer)
+using ModelContextProtocol.AspNetCore.Authentication;
+#endif
 using Scalar.AspNetCore;
 using System.Reflection;
 
@@ -53,6 +56,9 @@ app.UseExceptionHandler(options => { });
 app.Map("/", () => Results.Redirect("/api"));
 
 app.MapEndpoints();
+#if (IncludeMcpServer)
+app.MapMcp("/api/mcp").RequireAuthorization(McpAuthenticationDefaults.AuthenticationScheme);
+#endif
 
 app.Run();
 
