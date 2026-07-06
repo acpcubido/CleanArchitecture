@@ -20,7 +20,7 @@ src/Web/wwwroot/*
 mono_crash.*
 
 # Build results
-tools/
+#tools/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/

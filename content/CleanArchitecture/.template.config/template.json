@@ -22,6 +22,13 @@
             "displayName": "Include Angluar Project",
             "description": "Include the Angular frontend project in the solution"
         },
+        "IncludeMcpServer": {
+            "type": "parameter",
+            "datatype": "bool",
+            "defaultValue": "true",
+            "displayName": "Include MCP Server",
+            "description": "Include an MCP server with JWT Bearer Azure AD authentication"
+        },
         "FriendlyName": {
             "type": "parameter",
             "datatype": "string",
@@ -42,6 +49,10 @@
                     "condition": "(!IncludeFrontend)",
                     "exclude": [ "src/Frontend/**/*" ]
                 },
+                {
+                    "condition": "(!IncludeMcpServer)",
+                    "exclude": [ "src/Web/Tools/*", "src/Web/AzureAdOptions.cs", "src/Web/McpTelemetryMiddleware.cs" ]
+                },
                 // workaround for Visual Studio stripping solution folders not needed in dotnet new CLI
                 {
                     "condition": "(HostIdentifier == \"dotnetcli\" || HostIdentifier == \"dotnetcli-preview\")",
@@ -50,7 +61,7 @@
                         "Cubido.Template.slnx.xml": "Cubido.Template.slnx",
                         "tests/Application.FunctionalTests/Application.FunctionalTests.csproj.xml": "tests/Application.FunctionalTests/Application.FunctionalTests.csproj"
                     }
-                    }
+                }
             ]
         }
     ]

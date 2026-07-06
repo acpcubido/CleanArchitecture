@@ -17,6 +17,9 @@
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.0" />
     <PackageVersion Include="Mediator.SourceGenerator" Version="3.0.2" />
     <PackageVersion Include="Mediator.Abstractions" Version="3.0.2" />
+<!--#if (IncludeMcpServer) -->
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(AspnetVersion)" />
+<!-- #endif -->
     <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="$(AspnetVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="$(AspnetVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="$(AspnetVersion)" />
@@ -27,6 +30,9 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfcoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="$(EfcoreVersion)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(EfcoreVersion)" />
+<!--#if (IncludeMcpServer) -->
+    <PackageVersion Include="ModelContextProtocol.AspNetCore" Version="1.4.0" />
+<!-- #endif -->
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
     <PackageVersion Include="Riok.Mapperly" Version="4.3.0" />
     <PackageVersion Include="Scalar.AspNetCore" Version="2.11.0" />
