@@ -1,8 +1,8 @@
-﻿using Cubido.Template.Application.Common.Exceptions;
+﻿namespace Cubido.Template.Application.FunctionalTests.TodoItems.Commands;
+
+using Cubido.Template.Application.Common.Exceptions;
 using Cubido.Template.Application.TodoItems.Commands.CreateTodoItem;
 using Cubido.Template.Domain.Entities;
-
-namespace Cubido.Template.Application.FunctionalTests.TodoItems.Commands;
 
 using static Testing;
 

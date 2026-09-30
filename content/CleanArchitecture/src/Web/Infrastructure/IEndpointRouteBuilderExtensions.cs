@@ -6,7 +6,7 @@ public static class IEndpointRouteBuilderExtensions
 {
     public static IEndpointRouteBuilder MapGet(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern = "")
     {
-        Guard.Against.AnonymousMethod(handler);
+        ArgumentException.ThrowIfAnonymous(handler);
 
         builder.MapGet(pattern, handler)
             .WithName(handler.Method.Name);
@@ -16,7 +16,7 @@ public static class IEndpointRouteBuilderExtensions
 
     public static IEndpointRouteBuilder MapPost(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern = "")
     {
-        Guard.Against.AnonymousMethod(handler);
+        ArgumentException.ThrowIfAnonymous(handler);
 
         builder.MapPost(pattern, handler)
             .WithName(handler.Method.Name);
@@ -26,7 +26,7 @@ public static class IEndpointRouteBuilderExtensions
 
     public static IEndpointRouteBuilder MapPut(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern)
     {
-        Guard.Against.AnonymousMethod(handler);
+        ArgumentException.ThrowIfAnonymous(handler);
 
         builder.MapPut(pattern, handler)
             .WithName(handler.Method.Name);
@@ -36,7 +36,7 @@ public static class IEndpointRouteBuilderExtensions
 
     public static IEndpointRouteBuilder MapDelete(this IEndpointRouteBuilder builder, Delegate handler, [StringSyntax("Route")] string pattern)
     {
-        Guard.Against.AnonymousMethod(handler);
+        ArgumentException.ThrowIfAnonymous(handler);
 
         builder.MapDelete(pattern, handler)
             .WithName(handler.Method.Name);

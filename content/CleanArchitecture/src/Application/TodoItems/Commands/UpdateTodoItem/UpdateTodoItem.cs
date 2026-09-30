@@ -1,5 +1,4 @@
-﻿using Cubido.Template.Application.Common.Interfaces;
-using Cubido.Template.Domain.Entities;
+﻿using Cubido.Template.Domain.Entities;
 
 namespace Cubido.Template.Application.TodoItems.Commands.UpdateTodoItem;
 
@@ -13,21 +12,14 @@ public record UpdateTodoItemCommand : ICommand
     public bool Done { get; init; }
 }
 
-public class UpdateTodoItemCommandHandler : ICommandHandler<UpdateTodoItemCommand>
+public class UpdateTodoItemCommandHandler(IApplicationDbContext context) : ICommandHandler<UpdateTodoItemCommand>
 {
-    private readonly IApplicationDbContext context;
-
-    public UpdateTodoItemCommandHandler(IApplicationDbContext context)
-    {
-        this.context = context;
-    }
-
     public async ValueTask<Unit> Handle(UpdateTodoItemCommand request, CancellationToken cancellationToken)
     {
         var entity = await context.TodoItems
             .FindAsync([request.Id], cancellationToken);
 
-        Guard.Against.NotFound(request.Id, entity);
+        NotFoundException.ThrowIfNull(entity, request.Id);
 
         entity.Title = request.Title;
         entity.Done = request.Done;

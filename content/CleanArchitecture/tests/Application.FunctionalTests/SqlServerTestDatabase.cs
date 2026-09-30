@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿namespace Cubido.Template.Application.FunctionalTests;
 
-namespace Cubido.Template.Application.FunctionalTests;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 public class SqlServerTestDatabase : SqlTestDatabase
 {
@@ -13,7 +13,7 @@ public class SqlServerTestDatabase : SqlTestDatabase
             .Build();
 
         string? connectionString = configuration.GetConnectionString("DefaultConnection_Test");
-        Guard.Against.Null(connectionString);
+        ArgumentException.ThrowIfNullOrEmpty(connectionString);
         ConnectionString = connectionString;
 
         await base.InitializeAsync();

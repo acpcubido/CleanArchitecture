@@ -1,17 +1,15 @@
 ﻿using Azure.Identity;
 using Cubido.Template.Application.Common.Interfaces;
 using Cubido.Template.Infrastructure.Data;
-using Cubido.Template.Web.Services;
-using Microsoft.AspNetCore.Mvc;
-using Sqiddler.OpenApi;
-#if (IncludeMcpServer)
 using Cubido.Template.Web;
+using Cubido.Template.Web.Services;
 using Cubido.Template.Web.Tools;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ModelContextProtocol.AspNetCore.Authentication;
+using Sqiddler.OpenApi;
 using System.Security.Claims;
-#endif
 
 namespace Microsoft.Extensions.DependencyInjection;
 

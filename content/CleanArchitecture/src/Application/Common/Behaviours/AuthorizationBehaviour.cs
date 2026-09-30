@@ -1,23 +1,12 @@
-﻿using Cubido.Template.Application.Common.Exceptions;
-using Cubido.Template.Application.Common.Interfaces;
-using Cubido.Template.Application.Common.Security;
+﻿using Cubido.Template.Application.Common.Security;
 using System.Reflection;
 
 namespace Cubido.Template.Application.Common.Behaviours;
 
-public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IMessage
+public class AuthorizationBehaviour<TRequest, TResponse>(
+    IUser user,
+    IIdentityService identityService) : IPipelineBehavior<TRequest, TResponse> where TRequest : IMessage
 {
-    private readonly IUser user;
-    private readonly IIdentityService identityService;
-
-    public AuthorizationBehaviour(
-        IUser user,
-        IIdentityService identityService)
-    {
-        this.user = user;
-        this.identityService = identityService;
-    }
-
     public async ValueTask<TResponse> Handle(TRequest request, MessageHandlerDelegate<TRequest, TResponse> next, CancellationToken cancellationToken)
     {
         var authorizeAttributes = request.GetType().GetCustomAttributes<AuthorizeAttribute>();

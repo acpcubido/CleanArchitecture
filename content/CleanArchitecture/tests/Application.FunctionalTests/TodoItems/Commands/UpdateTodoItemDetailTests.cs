@@ -1,10 +1,11 @@
-﻿using Cubido.Template.Application.TodoItems.Commands.CreateTodoItem;
+﻿namespace Cubido.Template.Application.FunctionalTests.TodoItems.Commands;
+
+using Cubido.Template.Application.Common.Exceptions;
+using Cubido.Template.Application.TodoItems.Commands.CreateTodoItem;
 using Cubido.Template.Application.TodoItems.Commands.UpdateTodoItem;
 using Cubido.Template.Application.TodoItems.Commands.UpdateTodoItemDetail;
 using Cubido.Template.Domain.Entities;
 using Cubido.Template.Domain.Enums;
-
-namespace Cubido.Template.Application.FunctionalTests.TodoItems.Commands;
 
 using static Testing;
 

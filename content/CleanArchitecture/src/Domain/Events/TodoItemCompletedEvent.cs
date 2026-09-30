@@ -1,11 +1,6 @@
 ﻿namespace Cubido.Template.Domain.Events;
 
-public class TodoItemCompletedEvent : BaseEvent
+public class TodoItemCompletedEvent(TodoItem item) : BaseEvent
 {
-    public TodoItemCompletedEvent(TodoItem item)
-    {
-        Item = item;
-    }
-
-    public TodoItem Item { get; }
+    public TodoItem Item { get; } = item;
 }

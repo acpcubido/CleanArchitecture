@@ -5,15 +5,8 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Cubido.Template.Infrastructure.Data.Interceptors;
 
-public class DispatchDomainEventsInterceptor : SaveChangesInterceptor
+public class DispatchDomainEventsInterceptor(IMediator mediator) : SaveChangesInterceptor
 {
-    private readonly IMediator mediator;
-
-    public DispatchDomainEventsInterceptor(IMediator mediator)
-    {
-        this.mediator = mediator;
-    }
-
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
         DispatchDomainEvents(eventData.Context).GetAwaiter().GetResult();

@@ -126,7 +126,6 @@ csharp_prefer_braces = true
 csharp_prefer_simple_using_statement = true
 csharp_style_namespace_declarations = block_scoped
 csharp_style_prefer_method_group_conversion = true
-csharp_style_prefer_primary_constructors = true
 csharp_style_prefer_top_level_statements = true
 
 # Expression-level preferences
@@ -469,6 +468,9 @@ trim_trailing_whitespace = false
 ### Overrides of rules above
 # --------------------------
 
+[*.json]
+indent_size = 2
+
 [*.{cs,vb}]
 
 # Sort using directives alphabetically
@@ -584,6 +586,19 @@ dotnet_code_quality.CA1051.api_surface = public
 # YES   - OR /// <summary>My method</summary>
 # NO    /// <summary>My method</summary>
 dotnet_diagnostic.CS1591.severity = silent
+
+# Primary constructors
+# YES   public class MyClass(ILogger<MyClass> logger) { }
+# NO    public MyClass(ILogger<MyClass> logger) { this.logger = logger; }
+# Automatic migration: dotnet format PATH_TO_SLN.sln --diagnostics IDE0290
+csharp_style_prefer_primary_constructors = true:error
+
+
+[DependencyInjection.cs]
+
+# Namespace "Microsoft.Extensions.DependencyInjection" does not match folder structure
+# YES   namespace Microsoft.Extensions.DependencyInjection;
+dotnet_diagnostic.IDE0130.severity = silent
 
 [GlobalUsings.cs]
 

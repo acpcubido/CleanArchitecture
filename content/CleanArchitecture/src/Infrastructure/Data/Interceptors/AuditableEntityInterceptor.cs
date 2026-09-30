@@ -6,19 +6,10 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Cubido.Template.Infrastructure.Data.Interceptors;
 
-public class AuditableEntityInterceptor : SaveChangesInterceptor
+public class AuditableEntityInterceptor(
+    IUser user,
+    TimeProvider dateTime) : SaveChangesInterceptor
 {
-    private readonly IUser user;
-    private readonly TimeProvider dateTime;
-
-    public AuditableEntityInterceptor(
-        IUser user,
-        TimeProvider dateTime)
-    {
-        this.user = user;
-        this.dateTime = dateTime;
-    }
-
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
         UpdateEntities(eventData.Context);
