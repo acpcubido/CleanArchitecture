@@ -29,12 +29,65 @@
             "displayName": "Include MCP Server",
             "description": "Include an MCP server with JWT Bearer Azure AD authentication"
         },
+        "AzureDeployment": {
+            "type": "parameter",
+            "datatype": "bool",
+            "defaultValue": "true",
+            "displayName": "Include Azure Deployment",
+            "description": "Include Azure deployment configuration in the solution"
+        },
         "FriendlyName": {
             "type": "parameter",
             "datatype": "string",
             "displayName": "Azure friendly name",
             "description": "An azure friendly name for the projects (all lowercase, no numbers, no spaces)",
-            "replaces": "cubido-template"
+            "replaces": "cubido-template",
+            "isEnabled": "AzureDeployment == true"
+        },
+        "BlobContainerName": {
+            "type": "parameter",
+            "datatype": "string",
+            "displayName": "Blob Container Name (optional)",
+            "description": "The name of the Azure Blob Storage container",
+            "defaultValue": "",
+            "replaces": "BlobContainerName",
+            "isEnabled": "AzureDeployment == true"
+        },
+        "RemoteAccessGroupName": {
+            "type": "parameter",
+            "datatype": "string",
+            "displayName": "Remote Access Group Name",
+            "description": "The AD group that has administrative access to created azure resources",
+            "replaces": "RemoteAccessGroupName",
+            "isEnabled": "AzureDeployment == true",
+            "isRequired": true
+        },
+        "RemoteAccessGroupSID": {
+            "type": "parameter",
+            "datatype": "string",
+            "displayName": "Remote Access Group SID",
+            "description": "The AD group SID (= GUID) that has administrative access to created azure resources",
+            "replaces": "RemoteAccessGroupSID",
+            "isEnabled": "AzureDeployment == true",
+            "isRequired": true
+        },
+        "WhiteListIpAddress": {
+            "type": "parameter",
+            "datatype": "string",
+            "displayName": "White List IP Address",
+            "description": "The IP address that is allowed to access the created azure resources. Required for external administrative access.",
+            "replaces": "1.2.3.4",
+            "isEnabled": "AzureDeployment == true",
+            "isRequired": true
+        },
+        "FQDN": {
+            "type": "parameter",
+            "datatype": "string",
+            "displayName": "Fully Qualified Domain Name",
+            "description": "The fully qualified domain name for the created azure resources.",
+            "replaces": "example.com",
+            "isEnabled": "AzureDeployment == true",
+            "isRequired": true
         },
         "HostIdentifier": {
             "type": "bind",
@@ -47,16 +100,34 @@
             "modifiers": [
                 {
                     "condition": "(!IncludeFrontend)",
-                    "exclude": [ "src/Frontend/**/*" ]
+                    "exclude": ["src/Frontend/**/*"]
                 },
                 {
                     "condition": "(!IncludeMcpServer)",
-                    "exclude": [ "src/Web/Tools/*", "src/Web/AzureAdOptions.cs", "src/Web/McpTelemetryMiddleware.cs" ]
+                    "exclude": [
+                        "src/Web/Tools/*",
+                        "src/Web/AzureAdOptions.cs",
+                        "src/Web/McpTelemetryMiddleware.cs"
+                    ]
+                },
+                {
+                    "condition": "(!AzureDeployment)",
+                    "exclude": [
+                        "deployment/*",
+                        ".azure/deploy.yml",
+                        ".azure/ci.yml"
+                    ]
+                },
+                {
+                    "condition": "(BlobContainerName == \"\")",
+                    "exclude": ["deployment/blobstorage.bicep"]
                 },
                 // workaround for Visual Studio stripping solution folders not needed in dotnet new CLI
                 {
                     "condition": "(HostIdentifier == \"dotnetcli\" || HostIdentifier == \"dotnetcli-preview\")",
-                    "exclude": [ "tests/Application.FunctionalTests/Application.FunctionalTests.csproj" ],
+                    "exclude": [
+                        "tests/Application.FunctionalTests/Application.FunctionalTests.csproj"
+                    ],
                     "rename": {
                         "Cubido.Template.slnx.xml": "Cubido.Template.slnx",
                         "tests/Application.FunctionalTests/Application.FunctionalTests.csproj.xml": "tests/Application.FunctionalTests/Application.FunctionalTests.csproj"
