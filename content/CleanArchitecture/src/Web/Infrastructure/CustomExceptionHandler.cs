@@ -1,32 +1,33 @@
 ﻿using Cubido.Template.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Frozen;
 
 namespace Cubido.Template.Web.Infrastructure;
 
 public class CustomExceptionHandler : IExceptionHandler
 {
-    private readonly Dictionary<Type, Func<HttpContext, Exception, Task>> exceptionHandlers;
+    private readonly FrozenDictionary<Type, Func<HttpContext, Exception, Task>> exceptionHandlers;
 
     public CustomExceptionHandler()
     {
         // Register known exception types and handlers.
-        exceptionHandlers = new()
+        exceptionHandlers = new Dictionary<Type, Func<HttpContext, Exception, Task>>()
             {
                 { typeof(ValidationException), HandleValidationException },
                 { typeof(NotFoundException), HandleNotFoundException },
                 { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
                 { typeof(ForbiddenAccessException), HandleForbiddenAccessException },
-            };
+        }.ToFrozenDictionary();
     }
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         var exceptionType = exception.GetType();
 
-        if (exceptionHandlers.ContainsKey(exceptionType))
+        if (exceptionHandlers.TryGetValue(exceptionType, out var handler))
         {
-            await exceptionHandlers[exceptionType].Invoke(httpContext, exception);
+            await handler.Invoke(httpContext, exception);
             return true;
         }
 
