@@ -1,5 +1,6 @@
 ﻿using Cubido.Template.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Frozen;
 
@@ -13,11 +14,11 @@ public class CustomExceptionHandler : IExceptionHandler
     {
         // Register known exception types and handlers.
         exceptionHandlers = new Dictionary<Type, Func<HttpContext, Exception, Task>>()
-            {
-                { typeof(ValidationException), HandleValidationException },
-                { typeof(NotFoundException), HandleNotFoundException },
-                { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
-                { typeof(ForbiddenAccessException), HandleForbiddenAccessException },
+        {
+            { typeof(ValidationException), HandleValidationException },
+            { typeof(NotFoundException), HandleNotFoundException },
+            { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
+            { typeof(ForbiddenAccessException), HandleForbiddenAccessException },
         }.ToFrozenDictionary();
     }
 
@@ -34,55 +35,44 @@ public class CustomExceptionHandler : IExceptionHandler
         return false;
     }
 
-    private async Task HandleValidationException(HttpContext httpContext, Exception ex)
+    private Task HandleValidationException(HttpContext httpContext, Exception ex)
     {
-        var exception = (ValidationException)ex;
-
         httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-
-        await httpContext.Response.WriteAsJsonAsync(new ValidationProblemDetails(exception.Errors)
-        {
-            Status = StatusCodes.Status400BadRequest,
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
-        });
+        return TypedResults.ValidationProblem
+        (
+            errors: ((ValidationException)ex).Errors,
+            type: "https://tools.ietf.org/html/rfc7231#section-6.5.1"
+        ).ExecuteAsync(httpContext);
     }
 
-    private async Task HandleNotFoundException(HttpContext httpContext, Exception ex)
+    private Task HandleNotFoundException(HttpContext httpContext, Exception ex)
     {
-        var exception = (NotFoundException)ex;
-
-        httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-
-        await httpContext.Response.WriteAsJsonAsync(new ProblemDetails()
+        return TypedResults.NotFound(new ProblemDetails()
         {
             Status = StatusCodes.Status404NotFound,
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
             Title = "The specified resource was not found.",
-            Detail = exception.Message
-        });
+            Detail = ((NotFoundException)ex).Message
+        }).ExecuteAsync(httpContext);
     }
 
-    private async Task HandleUnauthorizedAccessException(HttpContext httpContext, Exception ex)
+    private Task HandleUnauthorizedAccessException(HttpContext httpContext, Exception ex)
     {
-        httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
-
-        await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
-        {
-            Status = StatusCodes.Status401Unauthorized,
-            Title = "Unauthorized",
-            Type = "https://tools.ietf.org/html/rfc7235#section-3.1"
-        });
+        return TypedResults.Problem(
+            detail: ex.Message,
+            statusCode: StatusCodes.Status401Unauthorized,
+            title: "Unauthorized",
+            type: "https://tools.ietf.org/html/rfc7235#section-3.1"
+        ).ExecuteAsync(httpContext);
     }
 
-    private async Task HandleForbiddenAccessException(HttpContext httpContext, Exception ex)
+    private Task HandleForbiddenAccessException(HttpContext httpContext, Exception ex)
     {
-        httpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
-
-        await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
-        {
-            Status = StatusCodes.Status403Forbidden,
-            Title = "Forbidden",
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.3"
-        });
+        return TypedResults.Problem(
+            detail: ex.Message,
+            statusCode: StatusCodes.Status403Forbidden,
+            title: "Forbidden",
+            type: "https://tools.ietf.org/html/rfc7231#section-6.5.3"
+        ).ExecuteAsync(httpContext);
     }
 }
