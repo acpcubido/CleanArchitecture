@@ -1,6 +1,4 @@
-﻿namespace Cubido.Template.Application.FunctionalTests;
-
-using Cubido.Template.Application.Common.Interfaces;
+﻿using Cubido.Template.Application.Common.Interfaces;
 using Cubido.Template.Application.FunctionalTests.TestServices;
 using Cubido.Template.Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Data.Common;
 
-using static Testing;
+using static Cubido.Template.Application.FunctionalTests.Testing;
+
+namespace Cubido.Template.Application.FunctionalTests;
 
 public class CustomWebApplicationFactory(DbConnection connection) : WebApplicationFactory<Program>
 {

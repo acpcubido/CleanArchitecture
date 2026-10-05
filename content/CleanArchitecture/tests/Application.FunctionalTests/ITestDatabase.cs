@@ -1,6 +1,6 @@
-﻿namespace Cubido.Template.Application.FunctionalTests;
+﻿using System.Data.Common;
 
-using System.Data.Common;
+namespace Cubido.Template.Application.FunctionalTests;
 
 public interface ITestDatabase
 {

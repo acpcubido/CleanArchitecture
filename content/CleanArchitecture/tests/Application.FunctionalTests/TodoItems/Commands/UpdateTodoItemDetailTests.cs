@@ -1,13 +1,13 @@
-﻿namespace Cubido.Template.Application.FunctionalTests.TodoItems.Commands;
-
-using Cubido.Template.Application.Common.Exceptions;
+﻿using Cubido.Template.Application.Common.Exceptions;
 using Cubido.Template.Application.TodoItems.Commands.CreateTodoItem;
 using Cubido.Template.Application.TodoItems.Commands.UpdateTodoItem;
 using Cubido.Template.Application.TodoItems.Commands.UpdateTodoItemDetail;
 using Cubido.Template.Domain.Entities;
 using Cubido.Template.Domain.Enums;
 
-using static Testing;
+using static Cubido.Template.Application.FunctionalTests.Testing;
+
+namespace Cubido.Template.Application.FunctionalTests.TodoItems.Commands;
 
 public class UpdateTodoItemDetailTests : BaseTestFixture
 {

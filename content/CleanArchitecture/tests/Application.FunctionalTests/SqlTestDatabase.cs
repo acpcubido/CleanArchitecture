@@ -1,10 +1,10 @@
-﻿namespace Cubido.Template.Application.FunctionalTests;
-
-using Cubido.Template.Infrastructure.Data;
+﻿using Cubido.Template.Infrastructure.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Respawn;
 using System.Data.Common;
+
+namespace Cubido.Template.Application.FunctionalTests;
 
 public abstract class SqlTestDatabase : ITestDatabase
 {

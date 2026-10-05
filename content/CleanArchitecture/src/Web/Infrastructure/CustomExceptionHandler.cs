@@ -1,6 +1,5 @@
 ﻿using Cubido.Template.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Frozen;
 

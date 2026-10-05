@@ -1,7 +1,7 @@
-﻿namespace Cubido.Template.Application.FunctionalTests;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+
+namespace Cubido.Template.Application.FunctionalTests;
 
 public class SqlServerTestDatabase : SqlTestDatabase
 {

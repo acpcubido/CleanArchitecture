@@ -1,12 +1,12 @@
-﻿namespace Cubido.Template.Application.FunctionalTests;
-
-using Cubido.Template.Domain.Constants;
+﻿using Cubido.Template.Domain.Constants;
 using Cubido.Template.Infrastructure.Data;
 using Cubido.Template.Infrastructure.Identity;
 using Mediator;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+
+namespace Cubido.Template.Application.FunctionalTests;
 
 [SetUpFixture]
 public partial class Testing

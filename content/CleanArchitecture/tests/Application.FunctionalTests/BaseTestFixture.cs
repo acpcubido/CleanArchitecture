@@ -1,6 +1,6 @@
-﻿namespace Cubido.Template.Application.FunctionalTests;
+﻿using static Cubido.Template.Application.FunctionalTests.Testing;
 
-using static Testing;
+namespace Cubido.Template.Application.FunctionalTests;
 
 [TestFixture]
 public abstract class BaseTestFixture

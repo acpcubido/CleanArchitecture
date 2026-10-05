@@ -1,6 +1,6 @@
-﻿namespace Cubido.Template.Application.FunctionalTests;
+﻿using Testcontainers.MsSql;
 
-using Testcontainers.MsSql;
+namespace Cubido.Template.Application.FunctionalTests;
 
 public class SqlContainerTestDatabase : SqlTestDatabase
 {
