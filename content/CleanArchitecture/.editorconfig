@@ -593,6 +593,8 @@ dotnet_diagnostic.CS1591.severity = silent
 # Automatic migration: dotnet format PATH_TO_SLN.sln --diagnostics IDE0290
 csharp_style_prefer_primary_constructors = true:error
 
+# missing switch case for unnamed enum value see https://github.com/dotnet/csharplang/discussions/2671
+dotnet_diagnostic.CS8524.severity = silent
 
 [DependencyInjection.cs]
 
