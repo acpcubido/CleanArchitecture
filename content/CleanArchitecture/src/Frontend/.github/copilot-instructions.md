@@ -1,13 +1,13 @@
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | Angular 21, standalone components only (no NgModules) |
-| State | NgRx Signals (`signalStore`, `signalStoreFeature`) |
-| Styling | Tailwind CSS + component-scoped SCSS |
-| REST API | auto-generated — never edit |
-| State mutations | Immer via `produceState()` helper |
-| i18n | ngx-translate, files in i18n |
+| Layer           | Technology                                            |
+| --------------- | ----------------------------------------------------- |
+| Framework       | Angular 22, standalone components only (no NgModules) |
+| State           | NgRx Signals (`signalStore`, `signalStoreFeature`)    |
+| Styling         | Kendo UI, Tailwind CSS + component-scoped SCSS        |
+| REST API        | auto-generated — never edit                           |
+| State mutations | Immer via `produceState()` helper                     |
+| i18n            | ngx-translate, files in i18n                          |
 
 ---
 
@@ -43,3 +43,10 @@ _shared/
 
 - **Path alias**: `@/*` → `src/app/*` — use for cross-feature imports
 - All routes are **lazy-loaded** (`loadComponent`)
+
+## Preferences for Angular and related libraries
+
+- Prefer using already existing Tailwind classes that are close to the desired values, e.g. h-32 instead of h-[150px]. Try simplifying the CSS classes, and extract shared ones across similar elements.
+- Prefer using pipes over method calls for complex methods called from html templates
+- When there are multiple icons in a component, group them like this: protected readonly icons = { filterIcon: filterAddExpressionIcon, collapseIcon: chevronLeftIcon, ... };
+- Prefer using Kendo-UI components over custom implementations, unless there is reason not to
