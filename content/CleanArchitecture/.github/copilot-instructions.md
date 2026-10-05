@@ -249,7 +249,7 @@ Infrastructure → Application
 - **File Organization**: One class per file, named after the class
 - **Nullability**: Nullable reference types enabled
 - **Immutability**: Prefer `record` types for DTOs and value objects
-- **Guards**: Use `Ardalis.GuardClauses` for argument validation
+- **Guards**: Use `ArgumentException.ThrowIfNull` or similar guard clauses for argument validation
 
 ---
 

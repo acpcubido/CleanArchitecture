@@ -1,5 +1,4 @@
-﻿using Cubido.Template.Application.Common.Exceptions;
-using Cubido.Template.Application.Common.Interfaces;
+﻿using Cubido.Template.Application.Common.Interfaces;
 using Cubido.Template.Domain.Constants;
 using Cubido.Template.Infrastructure.Data;
 using Cubido.Template.Infrastructure.Data.Interceptors;
@@ -17,7 +16,7 @@ public static class DependencyInjection
     public static void AddInfrastructureServices(this IHostApplicationBuilder builder)
     {
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-        NotFoundException.ThrowIfNull(connectionString, "DefaultConnection");
+        ArgumentException.ThrowIfNullOrWhiteSpace(connectionString, "DefaultConnection");
 
         builder.Services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
         builder.Services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
