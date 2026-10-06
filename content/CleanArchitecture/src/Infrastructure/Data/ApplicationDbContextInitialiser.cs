@@ -21,6 +21,15 @@ public static class InitialiserExtensions
         });
     }
 
+    public static async Task MigrateDatabase(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+
+        var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+        await initialiser.Database.MigrateAsync();
+    }
+
     public static async Task InitialiseDatabaseAsync(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
@@ -31,21 +40,8 @@ public static class InitialiserExtensions
     }
 }
 
-public class ApplicationDbContextInitialiser
+public class ApplicationDbContextInitialiser(ILogger<ApplicationDbContextInitialiser> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
 {
-    private readonly ILogger<ApplicationDbContextInitialiser> logger;
-    private readonly ApplicationDbContext context;
-    private readonly UserManager<ApplicationUser> userManager;
-    private readonly RoleManager<IdentityRole> roleManager;
-
-    public ApplicationDbContextInitialiser(ILogger<ApplicationDbContextInitialiser> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
-    {
-        this.logger = logger;
-        this.context = context;
-        this.userManager = userManager;
-        this.roleManager = roleManager;
-    }
-
     public async Task InitialiseAsync()
     {
         try

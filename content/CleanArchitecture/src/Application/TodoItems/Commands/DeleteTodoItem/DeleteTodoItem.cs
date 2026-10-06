@@ -1,5 +1,4 @@
-﻿using Cubido.Template.Application.Common.Interfaces;
-using Cubido.Template.Domain.Entities;
+﻿using Cubido.Template.Domain.Entities;
 
 namespace Cubido.Template.Application.TodoItems.Commands.DeleteTodoItem;
 
@@ -9,21 +8,14 @@ public record DeleteTodoItemCommand : ICommand
     public required int Id { get; set; }
 }
 
-public class DeleteTodoItemCommandHandler : ICommandHandler<DeleteTodoItemCommand>
+public class DeleteTodoItemCommandHandler(IApplicationDbContext context) : ICommandHandler<DeleteTodoItemCommand>
 {
-    private readonly IApplicationDbContext context;
-
-    public DeleteTodoItemCommandHandler(IApplicationDbContext context)
-    {
-        this.context = context;
-    }
-
     public async ValueTask<Unit> Handle(DeleteTodoItemCommand request, CancellationToken cancellationToken)
     {
         var entity = await context.TodoItems
             .FindAsync([request.Id], cancellationToken);
 
-        Guard.Against.NotFound(request.Id, entity);
+        NotFoundException.ThrowIfNull(entity, request.Id);
 
         context.TodoItems.Remove(entity);
 

@@ -1,5 +1,5 @@
 ﻿using Cubido.Template.Infrastructure.Data;
-#if (IncludeMcpServer)
+#if (IncludeMcpServer && UseEntraIdAuthentication)
 using ModelContextProtocol.AspNetCore.Authentication;
 #endif
 using Scalar.AspNetCore;
@@ -12,6 +12,7 @@ builder.AddKeyVaultIfConfigured();
 builder.AddApplicationServices(builder.Configuration);
 builder.AddInfrastructureServices();
 builder.AddWebServices();
+builder.AddOpenTelemetryInstrumentation();
 
 builder.Services.AddCors(options =>
 {
@@ -37,11 +38,24 @@ else
 {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+
+    // Dont run migrations during an OpenAPI generator run
+    if (Assembly.GetEntryAssembly()?.GetName().Name != "GetDocument.Insider")
+    {
+        await app.MigrateDatabase();
+    }
 }
 
 app.UseHealthChecks("/health");
 app.UseHttpsRedirection();
+app.UseForwardedHeaders();
 app.UseStaticFiles();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseAntiforgery();
+app.UseAntiforgeryCookie();
 
 app.MapOpenApi("/api/swagger.json");
 app.MapScalarApiReference("/api/swagger", options =>
@@ -53,11 +67,13 @@ app.UseCors();
 
 app.UseExceptionHandler(options => { });
 
-app.Map("/", () => Results.Redirect("/api"));
-
 app.MapEndpoints();
 #if (IncludeMcpServer)
-app.MapMcp("/api/mcp").RequireAuthorization(McpAuthenticationDefaults.AuthenticationScheme);
+app.MapMcp("/api/mcp")
+#if (UseEntraIdAuthentication)
+    .RequireAuthorization(McpAuthenticationDefaults.AuthenticationScheme)
+#endif
+    ;
 #endif
 
 app.Run();

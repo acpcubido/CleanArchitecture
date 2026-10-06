@@ -1,68 +1,186 @@
 {
-    "author": "ACP Cubido",
-    "name": "ACP Cubido Clean Code Template",
-    "shortName": "cubido-template",
-    "tags": {
-        "type": "solution",
-        "language": "C#",
-        "editorTreatAs": "solution"
+  "author": "ACP Cubido",
+  "name": "ACP Cubido Clean Code Template",
+  "shortName": "cubido-template",
+  "tags": {
+    "type": "solution",
+    "language": "C#",
+    "editorTreatAs": "solution"
+  },
+  "identity": "Cubido.CleanArchitecture.Template",
+  "sourceName": "Cubido.Template",
+  "primaryOutputs": [
+    {
+      "path": "Cubido.Template.slnx"
+    }
+  ],
+  "symbols": {
+    "IncludeFrontend": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "true",
+      "displayName": "Include Angluar Project",
+      "description": "Include the Angular frontend project in the solution"
     },
-    "identity": "Cubido.CleanArchitecture.Template",
-    "sourceName": "Cubido.Template",
-    "primaryOutputs": [
-        {
-            "path": "Cubido.Template.slnx"
-        }
-    ],
-    "symbols": {
-        "IncludeFrontend": {
-            "type": "parameter",
-            "datatype": "bool",
-            "defaultValue": "true",
-            "displayName": "Include Angluar Project",
-            "description": "Include the Angular frontend project in the solution"
-        },
-        "IncludeMcpServer": {
-            "type": "parameter",
-            "datatype": "bool",
-            "defaultValue": "true",
-            "displayName": "Include MCP Server",
-            "description": "Include an MCP server with JWT Bearer Azure AD authentication"
-        },
-        "FriendlyName": {
-            "type": "parameter",
-            "datatype": "string",
-            "displayName": "Azure friendly name",
-            "description": "An azure friendly name for the projects (all lowercase, no numbers, no spaces)",
-            "replaces": "cubido-template"
-        },
-        "HostIdentifier": {
-            "type": "bind",
-            "binding": "host:HostIdentifier"
-        }
+    "IncludeMcpServer": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "true",
+      "displayName": "Include MCP Server",
+      "description": "Include an MCP server with JWT Bearer Azure AD authentication"
     },
-    "sources": [
+    "AzureDeployment": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "true",
+      "displayName": "Include Azure Deployment",
+      "description": "Include Azure deployment configuration in the solution"
+    },
+    "FriendlyName": {
+      "type": "parameter",
+      "datatype": "string",
+      "displayName": "Azure friendly name",
+      "description": "An azure friendly name for the projects (all lowercase, no numbers, no spaces)",
+      "replaces": "cubido-template",
+      "isEnabled": "AzureDeployment == true"
+    },
+    "BlobContainerName": {
+      "type": "parameter",
+      "datatype": "string",
+      "displayName": "Blob Container Name (optional)",
+      "description": "The name of the Azure Blob Storage container",
+      "defaultValue": "",
+      "replaces": "BlobContainerName",
+      "isEnabled": "AzureDeployment == true"
+    },
+    "RemoteAccessGroupName": {
+      "type": "parameter",
+      "datatype": "string",
+      "displayName": "Remote Access Group Name",
+      "description": "The AD group that has administrative access to created azure resources",
+      "replaces": "RemoteAccessGroupName",
+      "isEnabled": "AzureDeployment == true",
+      "isRequired": true
+    },
+    "RemoteAccessGroupSID": {
+      "type": "parameter",
+      "datatype": "string",
+      "displayName": "Remote Access Group SID",
+      "description": "The AD group SID (= GUID) that has administrative access to created azure resources",
+      "replaces": "RemoteAccessGroupSID",
+      "isEnabled": "AzureDeployment == true",
+      "isRequired": true
+    },
+    "WhiteListIpAddress": {
+      "type": "parameter",
+      "datatype": "string",
+      "displayName": "White List IP Address",
+      "description": "The IP address that is allowed to access the created azure resources. Required for external administrative access.",
+      "replaces": "1.2.3.4",
+      "isEnabled": "AzureDeployment == true",
+      "isRequired": true
+    },
+    "FQDN": {
+      "type": "parameter",
+      "datatype": "string",
+      "displayName": "Fully Qualified Domain Name",
+      "description": "The fully qualified domain name for the created azure resources.",
+      "replaces": "example.com",
+      "isEnabled": "AzureDeployment == true",
+      "isRequired": true
+    },
+    "UseEntraIdAuthentication": {
+      "type": "parameter",
+      "datatype": "bool",
+      "displayName": "Use Entra ID Authentication",
+      "description": "Specifies whether to use Entra ID for authentication.",
+      "defaultValue": true
+    },
+    "ClientId": {
+      "type": "parameter",
+      "datatype": "string",
+      "displayName": "Client ID",
+      "description": "The Azure AD client ID for the Entra ID application used for authentication.",
+      "replaces": "ClientIdToReplace",
+      "isEnabled": "UseEntraIdAuthentication == true",
+      "isRequired": true
+    },
+    "TenantId": {
+      "type": "parameter",
+      "datatype": "string",
+      "displayName": "Tenant ID",
+      "description": "The Azure AD tenant ID that contains the Entra ID application for authentication.",
+      "replaces": "TenantIdToReplace",
+      "isEnabled": "UseEntraIdAuthentication == true",
+      "isRequired": true
+    },
+    "UseCommonTenant": {
+      "type": "parameter",
+      "datatype": "bool",
+      "displayName": "Allow users from all Tenants",
+      "description": "Allow users from all Tenants (common tenant) to login.",
+      "isEnabled": "UseEntraIdAuthentication == true",
+      "defaultValue": true
+    },
+    "Audience": {
+      "type": "parameter",
+      "datatype": "string",
+      "displayName": "EntraId Audience",
+      "description": "The Entra ID audience for the application. (e.g., api://your-api-id)",
+      "replaces": "AudienceId",
+      "isEnabled": "UseEntraIdAuthentication == true",
+      "isRequired": true
+    },
+    "ScopeId": {
+      "type": "parameter",
+      "datatype": "string",
+      "displayName": "EntraId MCP Scope ID",
+      "description": "The Entra ID scope ID for the application. (e.g., api://your-api-id/scope)",
+      "replaces": "ScopeId",
+      "isEnabled": "UseEntraIdAuthentication == true && IncludeMcpServer == true",
+      "isRequired": true
+    },
+    "HostIdentifier": {
+      "type": "bind",
+      "binding": "host:HostIdentifier"
+    }
+  },
+  "sources": [
+    {
+      "source": "./",
+      "modifiers": [
         {
-            "source": "./",
-            "modifiers": [
-                {
-                    "condition": "(!IncludeFrontend)",
-                    "exclude": [ "src/Frontend/**/*" ]
-                },
-                {
-                    "condition": "(!IncludeMcpServer)",
-                    "exclude": [ "src/Web/Tools/*", "src/Web/AzureAdOptions.cs", "src/Web/McpTelemetryMiddleware.cs" ]
-                },
-                // workaround for Visual Studio stripping solution folders not needed in dotnet new CLI
-                {
-                    "condition": "(HostIdentifier == \"dotnetcli\" || HostIdentifier == \"dotnetcli-preview\")",
-                    "exclude": [ "tests/Application.FunctionalTests/Application.FunctionalTests.csproj" ],
-                    "rename": {
-                        "Cubido.Template.slnx.xml": "Cubido.Template.slnx",
-                        "tests/Application.FunctionalTests/Application.FunctionalTests.csproj.xml": "tests/Application.FunctionalTests/Application.FunctionalTests.csproj"
-                    }
-                }
-            ]
+          "condition": "(!IncludeFrontend)",
+          "exclude": ["src/Frontend/**/*"]
+        },
+        {
+          "condition": "(!IncludeMcpServer)",
+          "exclude": ["src/Web/Tools/*", "src/Web/McpTelemetryMiddleware.cs"]
+        },
+        {
+          "condition": "(!UseEntraIdAuthentication)",
+          "exclude": ["src/Web/AzureAdOptions.cs"]
+        },
+        {
+          "condition": "(!AzureDeployment)",
+          "exclude": ["deployment/*", ".azure/deploy.yml", ".azure/ci.yml"]
+        },
+        {
+          "condition": "(BlobContainerName == \"\")",
+          "exclude": ["deployment/blobstorage.bicep"]
+        },
+        // workaround for Visual Studio stripping solution folders not needed in dotnet new CLI
+        {
+          "condition": "(HostIdentifier == \"dotnetcli\" || HostIdentifier == \"dotnetcli-preview\")",
+          "exclude": [
+            "tests/Application.FunctionalTests/Application.FunctionalTests.csproj"
+          ],
+          "rename": {
+            "Cubido.Template.slnx.xml": "Cubido.Template.slnx",
+            "tests/Application.FunctionalTests/Application.FunctionalTests.csproj.xml": "tests/Application.FunctionalTests/Application.FunctionalTests.csproj"
+          }
         }
-    ]
+      ]
+    }
+  ]
 }

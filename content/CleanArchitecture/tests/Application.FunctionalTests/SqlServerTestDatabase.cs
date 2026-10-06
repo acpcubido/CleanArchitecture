@@ -13,7 +13,7 @@ public class SqlServerTestDatabase : SqlTestDatabase
             .Build();
 
         string? connectionString = configuration.GetConnectionString("DefaultConnection_Test");
-        Guard.Against.Null(connectionString);
+        ArgumentException.ThrowIfNullOrEmpty(connectionString);
         ConnectionString = connectionString;
 
         await base.InitializeAsync();

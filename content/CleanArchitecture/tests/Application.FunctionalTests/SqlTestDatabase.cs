@@ -22,10 +22,11 @@ public abstract class SqlTestDatabase : ITestDatabase
             .Options;
 
         var context = new ApplicationDbContext(options);
+        await connection.OpenAsync();
 
         context.Database.Migrate();
 
-        respawner = await Respawner.CreateAsync(ConnectionString, new RespawnerOptions
+        respawner = await Respawner.CreateAsync(connection, new RespawnerOptions
         {
             TablesToIgnore = ["__EFMigrationsHistory"]
         });
@@ -40,7 +41,7 @@ public abstract class SqlTestDatabase : ITestDatabase
 
     public async Task ResetAsync()
     {
-        await respawner.ResetAsync(ConnectionString);
+        await respawner.ResetAsync(connection);
     }
 
     public virtual async Task DisposeAsync()

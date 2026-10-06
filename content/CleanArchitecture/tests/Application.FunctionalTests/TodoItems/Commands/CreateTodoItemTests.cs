@@ -2,9 +2,9 @@
 using Cubido.Template.Application.TodoItems.Commands.CreateTodoItem;
 using Cubido.Template.Domain.Entities;
 
-namespace Cubido.Template.Application.FunctionalTests.TodoItems.Commands;
+using static Cubido.Template.Application.FunctionalTests.Testing;
 
-using static Testing;
+namespace Cubido.Template.Application.FunctionalTests.TodoItems.Commands;
 
 public class CreateTodoItemTests : BaseTestFixture
 {

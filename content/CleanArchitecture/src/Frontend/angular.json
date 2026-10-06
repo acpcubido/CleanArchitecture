@@ -1,9 +1,10 @@
 {
-  "$schema": ".yarn/unplugged/@angular-cli-npm-21.2.4-879d97d45c/node_modules/@angular/cli/lib/config/schema.json",
+  "$schema": ".yarn/unplugged/@angular-cli-npm-22.2.0-9dee2e4fd5/node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
     "packageManager": "yarn",
-    "schematicCollections": ["angular-eslint"]
+    "schematicCollections": ["angular-eslint"],
+    "analytics": false
   },
   "schematics": {
     "@schematics/angular": {

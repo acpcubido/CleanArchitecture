@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using Microsoft.AspNetCore.Antiforgery;
+using System.Reflection;
 
 namespace Cubido.Template.Web.Infrastructure;
 
@@ -30,6 +31,22 @@ public static class WebApplicationExtensions
             }
         }
 
+        return app;
+    }
+
+    public static WebApplication UseAntiforgeryCookie(this WebApplication app)
+    {
+        app.Use(next => context =>
+        {
+            if (context.User?.Identity?.IsAuthenticated == true)
+            {
+                var antiforgery = context.RequestServices.GetRequiredService<IAntiforgery>();
+                var tokens = antiforgery.GetAndStoreTokens(context);
+                context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken ?? "", new CookieOptions() { HttpOnly = false, SameSite = SameSiteMode.Strict });
+            }
+
+            return next(context);
+        });
         return app;
     }
 }

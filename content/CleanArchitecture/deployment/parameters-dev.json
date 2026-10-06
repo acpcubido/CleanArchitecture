@@ -11,14 +11,20 @@
     "sqlServerLocation": {
         "value": "westeurope"
     },
+    "fqdn": {
+        "value": "dev.example.com"
+    },
     "remoteAccessFrom": {
         "value": "1.2.3.4"
     },
     "remoteAccessEntraGroupName": {
-        "value": "Team Turbo"
+        "value": "RemoteAccessGroupName"
     },
     "remoteAccessEntraGroupSID": {
-        "value": "xxxxxxxx-yyyy-4zzz-aaaa-bbbbbbbbbbbb"
+        "value": "RemoteAccessGroupSID"
+    },
+    "sharedAcrName": {
+        "value": "acr-cubido-template"
     },
     "alertReceivers": {
         "value": [

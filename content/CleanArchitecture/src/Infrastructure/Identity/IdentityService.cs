@@ -5,22 +5,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Cubido.Template.Infrastructure.Identity;
 
-public class IdentityService : IIdentityService
+public class IdentityService(
+    UserManager<ApplicationUser> userManager,
+    IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory,
+    IAuthorizationService authorizationService) : IIdentityService
 {
-    private readonly UserManager<ApplicationUser> userManager;
-    private readonly IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory;
-    private readonly IAuthorizationService authorizationService;
-
-    public IdentityService(
-        UserManager<ApplicationUser> userManager,
-        IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory,
-        IAuthorizationService authorizationService)
-    {
-        this.userManager = userManager;
-        this.userClaimsPrincipalFactory = userClaimsPrincipalFactory;
-        this.authorizationService = authorizationService;
-    }
-
     public async Task<string?> GetUserNameAsync(string userId)
     {
         var user = await userManager.FindByIdAsync(userId);

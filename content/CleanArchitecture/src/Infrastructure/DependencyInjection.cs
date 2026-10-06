@@ -16,7 +16,7 @@ public static class DependencyInjection
     public static void AddInfrastructureServices(this IHostApplicationBuilder builder)
     {
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-        Guard.Against.Null(connectionString, message: "Connection string 'DefaultConnection' not found.");
+        ArgumentException.ThrowIfNullOrWhiteSpace(connectionString, "DefaultConnection");
 
         builder.Services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
         builder.Services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
@@ -46,7 +46,7 @@ public static class DependencyInjection
         builder.Services.AddSingleton(TimeProvider.System);
         builder.Services.AddTransient<IIdentityService, IdentityService>();
 
-        builder.Services.AddAuthorization(options =>
-            options.AddPolicy(Policies.CAN_PURGE, policy => policy.RequireRole(Roles.ADMINISTRATOR)));
+        builder.Services.AddAuthorizationBuilder()
+            .AddPolicy(Policies.CAN_PURGE, policy => policy.RequireRole(Roles.ADMINISTRATOR));
     }
 }

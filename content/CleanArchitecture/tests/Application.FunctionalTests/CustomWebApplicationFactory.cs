@@ -10,19 +10,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Data.Common;
 
+using static Cubido.Template.Application.FunctionalTests.Testing;
+
 namespace Cubido.Template.Application.FunctionalTests;
 
-using static Testing;
-
-public class CustomWebApplicationFactory : WebApplicationFactory<Program>
+public class CustomWebApplicationFactory(DbConnection connection) : WebApplicationFactory<Program>
 {
-    private readonly DbConnection connection;
-
-    public CustomWebApplicationFactory(DbConnection connection)
-    {
-        this.connection = connection;
-    }
-
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureTestServices(services =>

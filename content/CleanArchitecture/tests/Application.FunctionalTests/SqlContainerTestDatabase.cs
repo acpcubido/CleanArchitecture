@@ -8,10 +8,9 @@ public class SqlContainerTestDatabase : SqlTestDatabase
 
     public override async Task InitializeAsync()
     {
-        container = new MsSqlBuilder()
+        // https://github.com/testcontainers/testcontainers-dotnet/issues/1264
+        container = new MsSqlBuilder("mcr.microsoft.com/mssql/server:2022-CU22-ubuntu-22.04")
             .WithAutoRemove(true)
-            // https://github.com/testcontainers/testcontainers-dotnet/issues/1264
-            .WithImage("mcr.microsoft.com/mssql/server:2022-CU22-ubuntu-22.04")
             .Build();
 
         await container.StartAsync();
