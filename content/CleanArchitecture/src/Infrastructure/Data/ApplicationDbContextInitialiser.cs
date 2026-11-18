@@ -92,7 +92,7 @@ public class ApplicationDbContextInitialiser(ILogger<ApplicationDbContextInitial
         }
 
         // TODO: seed data prod
-        if (!context.TodoLists.Any())
+        if (!await context.TodoLists.AnyAsync())
         {
             context.TodoLists.Add(new TodoList
             {
