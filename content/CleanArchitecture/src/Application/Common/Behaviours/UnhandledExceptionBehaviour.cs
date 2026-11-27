@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace Cubido.Template.Application.Common.Behaviours;
 
 public class UnhandledExceptionBehaviour<TRequest, TResponse>(ILogger<TRequest> logger) : IPipelineBehavior<TRequest, TResponse> where TRequest : IMessage
 {
+    [DebuggerStepThrough]
     public async ValueTask<TResponse> Handle(TRequest request, MessageHandlerDelegate<TRequest, TResponse> next, CancellationToken cancellationToken)
     {
         try

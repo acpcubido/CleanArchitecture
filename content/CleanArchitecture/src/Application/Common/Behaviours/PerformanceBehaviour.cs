@@ -10,6 +10,7 @@ public class PerformanceBehaviour<TRequest, TResponse>(
 {
     private readonly Stopwatch timer = new();
 
+    [DebuggerStepThrough]
     public async ValueTask<TResponse> Handle(TRequest request, MessageHandlerDelegate<TRequest, TResponse> next, CancellationToken cancellationToken)
     {
         timer.Start();

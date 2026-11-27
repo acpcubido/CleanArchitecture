@@ -1,9 +1,11 @@
-﻿using ValidationException = Cubido.Template.Application.Common.Exceptions.ValidationException;
+﻿using System.Diagnostics;
+using ValidationException = Cubido.Template.Application.Common.Exceptions.ValidationException;
 
 namespace Cubido.Template.Application.Common.Behaviours;
 
 public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse> where TRequest : IMessage
 {
+    [DebuggerStepThrough]
     public async ValueTask<TResponse> Handle(TRequest request, MessageHandlerDelegate<TRequest, TResponse> next, CancellationToken cancellationToken)
     {
         if (validators.Any())
