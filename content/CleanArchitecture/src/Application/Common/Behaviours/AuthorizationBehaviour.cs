@@ -1,4 +1,5 @@
 ﻿using Cubido.Template.Application.Common.Security;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Cubido.Template.Application.Common.Behaviours;
@@ -7,6 +8,7 @@ public class AuthorizationBehaviour<TRequest, TResponse>(
     IUser user,
     IIdentityService identityService) : IPipelineBehavior<TRequest, TResponse> where TRequest : IMessage
 {
+    [DebuggerStepThrough]
     public async ValueTask<TResponse> Handle(TRequest request, MessageHandlerDelegate<TRequest, TResponse> next, CancellationToken cancellationToken)
     {
         var authorizeAttributes = request.GetType().GetCustomAttributes<AuthorizeAttribute>();
